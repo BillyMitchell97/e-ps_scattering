@@ -39,13 +39,11 @@
       WRITE(6,33) I,(FIFI(I,J),J=1,N1PN2F)
    34 CONTINUE
     5 CONTINUE
-
+    
       CALL BOUND
-
+  
       STOP
-
       END
-
       SUBROUTINE CONST
               !THIS SUBROUTINE DOES A LOT OF NUMERICAL WORK BEFORE
               !BEGINNING THE CALCULATION OF THE VARIOUS MATRIX ELEMENTS
@@ -66,15 +64,15 @@
               ! THE POWERS OF THE SHORT-RANGE EXPANSION TERMS, AND THEN
               ! ORDER THEM
               DO 28 I=1,364
-              K(I)=0.
-              L(I)=0.
-              M(I)=0.
+              K(I)=0
+              L(I)=0
+              M(I)=0
               RK(I)=0.0Q0
               RL(I)=0.0Q0
               RM(I)=0.0Q0
    28         CONTINUE
 
-              PI=4.Q0*ATAN(1.Q0)
+              PI=4.0Q0*ATAN(1.0Q0)
 
     1         FORMAT(2F8.5)
               READ(5,*) ALPHA2,GAMMA2
@@ -84,60 +82,59 @@
    10         FORMAT (" A2=",F9.5,1x," G2=",F9.5)
               WRITE(6,11) IHDPTF
    11         FORMAT(" DEGREE OF POLYNOMIAL=",I3)
-              IHDPP1=IHDPTF+1 
-              WRITE(6,15)IHDPP1
+              IHDPP1 = IHDPTF+1 
+              WRITE(6,15) IHDPP1
    15         FORMAT(3X,"IHDPP1=",I3)
 
               IND=0
 
               DO 65 I=1,IHDPP1
               DO 66 IK=1,I
-              ILMAX=I-IK+1.
+              ILMAX = I-IK+1.
               DO 67 JK=1,ILMAX
-              IND=IND+1.
-              I1=IK-1.
-              I2=JK-1.
-              I12=I-1.-I1-I2
-              K(IND)=I1
-              L(IND)=I2
-              M(IND)=I12
-              RK(IND)=K(IND)
-              RL(IND)=L(IND)
-              RM(IND)=M(IND)
+              IND = IND+1.
+              I1 = IK-1.
+              I2 = JK-1.
+              I12 = I-1.-I1-I2
+              K(IND) = I1
+              L(IND) = I2
+              M(IND) = I12
+              RK(IND) = K(IND)
+              RL(IND) = L(IND)
+              RM(IND) = M(IND)
    67         CONTINUE
    66         CONTINUE
    65         CONTINUE
 
-              NT=IND
-              SP(1)=1.0Q0
-              TP(1)=1.0Q0
-              R3P(1)=1.0Q0
+              NT = IND
+              SP(1) = 1.0Q0
+              TP(1) = 1.0Q0
+              R3P(1) = 1.0Q0
 
-              PRINT *, "K-L-M"
               WRITE(6,72)(K(I),L(I),M(I),I,I=1,NT)
    72         FORMAT(4I5)
 
-              KC=0.
+              KC=0
 
               DO 100 I=1,NT
-              IRES=MOD(L(I),2)
+              IRES = MOD(L(I),2)
               If (IRES.EQ.0) Then
-                      KC=KC+1.
-                      K(KC)=K(I)
-                      L(KC)=L(I)
-                      M(KC)=M(I)
-                      RK(KC)=RK(I)
-                      RL(KC)=RL(I)
-                      RM(KC)=RM(I)
+                      KC = KC+1.
+                      K(KC) = K(I)
+                      L(KC) = L(I)
+                      M(KC) = M(I)
+                      RK(KC) = RK(I)
+                      RL(KC) = RL(I)
+                      RM(KC) = RM(I)
               END IF
   100         CONTINUE
 
-              KK=KC
-              N1F=KK
-              N2F=0.
-              N1PN2F=N1F+N2F
+              KK = KC
+              N1F = KK
+              N2F = 0
+              N1PN2F = N1F+N2F
 
-              WRITE(6,12)N1F,N2F,N1PN2F
+              WRITE(6,12) N1F,N2F,N1PN2F
    12         FORMAT(3X,"N1F=",I3,"N2F=",I3,3X,"N1PN2F=",I3)
               WRITE(6,72)(K(KC),L(KC),M(KC),KC,KC=1,KK)
               RETURN
@@ -163,57 +160,55 @@
               COMMON K(364),L(364),M(364)
               COMMON N1F,N2F,IHDPTF,N1PN2F
               COMMON/EPS3/C(203)
-              Dimension FI(364)
+              DIMENSION FI(364)
 
               DO 14 I=1,364
               DO 16 J=1,364
-              FIFI(I,J)=0.0Q0
-              FIHFI(I,J)=0.0Q0
+              FIFI(I,J) = 0.0Q0
+              FIHFI(I,J) = 0.0Q0
    16         CONTINUE
    14         CONTINUE
 
-              NS=IHDPTF+2
+              NS = IHDPTF+2
 
               CALL LWTS(NS,XSQ,CSQ,1.0Q0,0.0Q0)
-
-              PRINT *, "Abscissas and Weights:"
 
               WRITE(6,13)( XSQ(I),CSQ(I),I,I=1,NS)
    13         FORMAT(3X,2D20.10,2X,I2)
 
               !BELOW IS THE INTEGRATION CODE
-              XA=ALPHA2+ALPHA2
-              XB=XA
-              XC=GAMMA2+GAMMA2
-              EXFAC=0.25Q0*PI
-    4         CX=0.5Q0*(XA+XB)
-              CY=0.5Q0*(XB+XC)
-              CZ=0.5Q0*(XC+XA)
-              CXINV=1.0Q0/CX
-              CYINV=1.0Q0/CY
-              CZINV=1.0Q0/CZ
-              EXFAC=EXFAC*CXINV*CYINV*CZINV
+              XA = ALPHA2+ALPHA2
+              XB = XA
+              XC = GAMMA2+GAMMA2
+              EXFAC = 0.25Q0*PI
+    4         CX = 0.5Q0*(XA+XB)
+              CY = 0.5Q0*(XB+XC)
+              CZ = 0.5Q0*(XC+XA)
+              CXINV = 1.0Q0/CX
+              CYINV = 1.0Q0/CY
+              CZINV = 1.0Q0/CZ
+              EXFAC = EXFAC*CXINV*CYINV*CZINV
 
               DO 5 IX=1,NS
-              X=XSQ(IX)*CXINV
+              X = XSQ(IX)*CXINV
               DO 6 IY=1,NS
-              Y=XSQ(IY)*CYINV
+              Y = XSQ(IY)*CYINV
               DO 7 IZ=1,NS
-              Z=XSQ(IZ)*CZINV
-              R1=0.5Q0*(X+Z)
-              R2=0.5Q0*(X+Y)
-              R3=0.5Q0*(Y+Z)
-              S=R1+R2
-              T=R1-R2
-              RECR1=1.0Q0/R1
-              RECR2=1.0Q0/R2
-              RECR3=1.0Q0/R3
-              RECS=1.0Q0/S
+              Z = XSQ(IZ)*CZINV
+              R1 = 0.5Q0*(X+Z)
+              R2 = 0.5Q0*(X+Y)
+              R3 = 0.5Q0*(Y+Z)
+              S = R1+R2
+              T = R1-R2
+              RECR1 = 1.0Q0/R1
+              RECR2 = 1.0Q0/R2
+              RECR3 = 1.0Q0/R3
+              RECS = 1.0Q0/S
 
               DO 8 I=2,12
-              SP(I)=SP(I-1)*S
-              TP(I)=TP(I-1)*T
-              R3P(I)=R3P(I-1)*R3
+              SP(I) = SP(I-1)*S
+              TP(I) = TP(I-1)*T
+              R3P(I) = R3P(I-1)*R3
     8         CONTINUE
 
               COEF=EXFAC*CSQ(IX)*CSQ(IY)*CSQ(IZ)*R1*R2*R3
@@ -222,41 +217,41 @@
               FI(IA)=SP(K(IA)+1)*TP(L(IA)+1)*R3P(M(IA)+1)
    11         CONTINUE
 
-              ST=S*S-T*T
-              RECST=1.0Q0/ST
-              R3T=R3*R3-T*T
-              SR3=S*S-R3*R3
-              RECS2=RECS*RECS
-              RECR32=RECR3*RECR3
-              STR31=3.0Q0*S*S-T*T-2.0Q0*R3*R3
-              STR32=S*S-3.0Q0*T*T+2.0Q0*R3*R3
-              SR38=8.0Q0*S*R3
+              ST = S*S-T*T
+              RECST = 1.0Q0/ST
+              R3T = R3*R3-T*T
+              SR3 = S*S-R3*R3
+              RECS2 = RECS*RECS
+              RECR32 = RECR3*RECR3
+              STR31 = 3.0Q0*S*S-T*T-2.0Q0*R3*R3
+              STR32 = S*S-3.0Q0*T*T+2.0Q0*R3*R3
+              SR38 = 8.0Q0*S*R3
 
               DO 9 JA=1,N1F
               FIJCF=SP(K(JA)+1)*TP(L(JA)+1)*R3P(M(JA)+1)*COEF
-              TERM27=RK(JA)*RECS-ALPHA2
-              TERM67=RM(JA)*RECR3-GAMMA2
-              TERM11=ALPHA2*ALPHA2-2.0Q0*ALPHA2*RK(JA)*RECS
+              TERM27 = RK(JA)*RECS-ALPHA2
+              TERM67 = RM(JA)*RECR3-GAMMA2
+              TERM11 = ALPHA2*ALPHA2-2.0Q0*ALPHA2*RK(JA)*RECS
      1              +K(JA)*(K(JA)-1.0Q0)*RECS2
-              TERM1=STR31*R3*TERM11
-              TERM2=SR38*TERM27
+              TERM1 = STR31*R3*TERM11
+              TERM2 = SR38*TERM27
 
               IF(L(JA).EQ.0.OR.L(JA).EQ.1)THEN
                       TERM3=0.0Q0
               ELSE
-               TERM3=-4.0Q0/3.0Q0*RECST*RECR3*STR32*R3*
+               TERM3 = -4.0Q0/3.0Q0*RECST*RECR3*STR32*R3*
      1               RL(JA)*(RL(JA)-1.0Q0)*SP(K(JA)+1)*TP(L(JA)-1)*
      1               R3P(M(JA)+1)*COEF
               END IF
 
-              TERM4=-8.0Q0*R3*RL(JA)
+              TERM4 = -8.0Q0*R3*RL(JA)
               TERM55=GAMMA2*GAMMA2-2.0Q0*GAMMA2*RM(JA)*RECR3+RM(JA)*
      1               (RM(JA)-1.0Q0)*RECR32
-              TERM5=ST*R3*TERM55
-              TERM6=2.0Q0*ST*TERM67
-              TERM7=R3T*2.0Q0*S*TERM67*TERM27
-              TERM8=SR3*2.0Q0*L(JA)*TERM67
-              POTTOL=-(RECR1+RECR2-RECR3)
+              TERM5 = ST*R3*TERM55
+              TERM6 = 2.0Q0*ST*TERM67
+              TERM7 = R3T*2.0Q0*S*TERM67*TERM27
+              TERM8 = SR3*2.0Q0*L(JA)*TERM67
+              POTTOL = -(RECR1+RECR2-RECR3)
               TERM=4.0Q0/3.0Q0*(-RECST*RECR3*(TERM1+TERM2+TERM4+
      1        TERM5+TERM6+TERM7+TERM8)+POTTOL+0.25Q0)
 
@@ -327,7 +322,6 @@
     8         CONTINUE
 
               RETURN
-
               END
 
       SUBROUTINE LN(F, D, X, N)
@@ -352,7 +346,6 @@
               D=N/X*(F-L(1))
 
               RETURN
-
               END
 
       SUBROUTINE BOUND
@@ -370,10 +363,10 @@
               COMMON K(364),L(364),M(364)
               COMMON N1F,N2F,IHDPTF,N1PN2F
               COMMON/EPS3/C(203)
-              Dimension R(203),V(203,203),DL(203),E(203)
-              Dimension FIFI8(364,364),FIHFI8(364,364)
-              Dimension WORK1(1)
-              Allocatable WORK(:)
+              DIMENSION R(203),V(203,203),DL(203),E(203)
+              DIMENSION FIFI8(364,364),FIHFI8(364,364)
+              DIMENSION WORK1(1)
+              ALLOCATABLE WORK(:)
 
               DO 100 I=1,203
               R(I)=0.0
@@ -446,10 +439,7 @@
 
    43         FORMAT(3X,"I=",I3,"C(I)=",D15.7)
 
-              PRINT *, C(1)
-
               RETURN
-
               END
 
 !Sample Input for executable below:
