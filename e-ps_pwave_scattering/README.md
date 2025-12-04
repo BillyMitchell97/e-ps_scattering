@@ -11,3 +11,6 @@ shielding function power (nb)
 number of energies  
 energies  
 print indicator
+
+Example compile command for the Intel IFORT Fortran compiler:
+ifort pwave.f -o PWAVE -mkl -O0 -traceback
