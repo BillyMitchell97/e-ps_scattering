@@ -12,3 +12,5 @@ number of energies
 energies  
 printing indicator
 
+Example compile command for the Intel IFORT Fortran compiler:
+ifort swave.f -o SWAVE -mkl -O0 -traceback
