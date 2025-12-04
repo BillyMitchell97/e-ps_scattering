@@ -11,3 +11,6 @@ The input file, Pd.data, is organized as follows:
 - number of energies
 - energies
 - printing parameter
+
+Example compile command for the Intel IFORT Fortran compiler:
+ifort mixed_master.f -o MIX -mkl -O0 -traceback
